@@ -1,0 +1,28 @@
+---
+namespace: stevefulme1
+name: fiddler_ai
+version: 1.0.0
+readme: README.md
+authors:
+  - Steve Fulmer <sfulmer@redhat.com>
+description: >-
+  Ansible Collection for Fiddler AI model performance management platform.
+  Provides modules for managing projects, models, datasets, alerts,
+  custom metrics, explainability, and baselines via the Fiddler REST API.
+license:
+  - GPL-3.0-or-later
+tags:
+  - fiddler
+  - ai
+  - mlops
+  - monitoring
+  - observability
+dependencies: {}
+repository: https://github.com/stevefulme1/ansible-fiddler-ai
+documentation: https://github.com/stevefulme1/ansible-fiddler-ai/blob/main/README.md
+homepage: https://github.com/stevefulme1/ansible-fiddler-ai
+issues: https://github.com/stevefulme1/ansible-fiddler-ai/issues
+build_ignore:
+  - .git
+  - .github
+  - tests/output
