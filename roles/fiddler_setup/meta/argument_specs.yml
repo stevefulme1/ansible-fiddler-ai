@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: "Set up Fiddler AI platform connection"
+    options:
+      fiddler_setup_api_key:
+        description: Fiddler AI API key for authentication.
+        type: str
+        no_log: true
+      fiddler_setup_organization_id:
+        description: Fiddler organization ID.
+        type: str
+      fiddler_setup_state:
+        description: Desired state of the setup.
+        type: str
