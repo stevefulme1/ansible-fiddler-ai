@@ -1,3 +1,7 @@
+> **EXPERIMENTAL** - This collection is a proof of concept and is not production ready.
+> Modules may use placeholder API endpoints and have not been validated against real infrastructure.
+> Do not use in production environments.
+
 # Fiddler AI Ansible Collection
 
 Ansible Collection for Fiddler AI model performance management platform. Provides modules for managing projects, models, datasets, alerts, custom metrics, explainability, and baselines via the Fiddler REST API.
