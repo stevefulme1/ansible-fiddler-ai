@@ -1,0 +1,9 @@
+---
+- name: Validate required parameters
+  ansible.builtin.assert:
+    that: fiddler_setup_api_key is defined
+    quiet: true
+
+- name: Execute fiddler_setup
+  ansible.builtin.debug:
+    msg: "Install and configure Fiddler AI integration"

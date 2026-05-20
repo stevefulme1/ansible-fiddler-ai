@@ -1,0 +1,9 @@
+---
+- name: Validate required parameters
+  ansible.builtin.assert:
+    that: fiddler_monitor_project_id is defined
+    quiet: true
+
+- name: Execute fiddler_monitor
+  ansible.builtin.debug:
+    msg: "Deploy monitoring configuration for Fiddler AI models"

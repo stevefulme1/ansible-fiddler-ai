@@ -1,0 +1,36 @@
+{
+ "collection_info": {
+  "namespace": "stevefulme1",
+  "name": "fiddler_ai",
+  "version": "0.0.1",
+  "authors": [
+   "Steve Fulmer <sfulmer@redhat.com>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "fiddler",
+   "ai",
+   "mlops",
+   "monitoring",
+   "observability"
+  ],
+  "description": "EXPERIMENTAL - proof of concept, not production ready. Ansible Collection for Fiddler AI model performance management platform. Provides modules for managing projects, models, datasets, alerts, custom metrics, explainability, and baselines via the Fiddler REST API.",
+  "license": [
+   "GPL-3.0-or-later"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "https://github.com/stevefulme1/ansible-fiddler-ai",
+  "documentation": "https://github.com/stevefulme1/ansible-fiddler-ai/blob/main/README.md",
+  "homepage": "https://github.com/stevefulme1/ansible-fiddler-ai",
+  "issues": "https://github.com/stevefulme1/ansible-fiddler-ai/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "90a861c054345389339638553e4a401f8f929d0d074385106e6e33515fdd2574",
+  "format": 1
+ },
+ "format": 1
+}

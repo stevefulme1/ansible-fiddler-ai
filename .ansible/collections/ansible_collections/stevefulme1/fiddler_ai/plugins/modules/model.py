@@ -2,7 +2,7 @@
 # Copyright (c) 2024, Steve Fulmer
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module for managing Fiddler AI alert."""
+"""Ansible module for managing Fiddler AI model."""
 
 from __future__ import absolute_import, division, print_function
 
@@ -10,10 +10,10 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: alert
-short_description: Manage alerts in Fiddler AI
+module: model
+short_description: Manage models in Fiddler AI
 description:
-    - Manage alerts in Fiddler AI via the Fiddler AI REST API.
+    - Manage models in Fiddler AI via the Fiddler AI REST API.
 version_added: "1.0.0"
 author:
     - Steve Fulmer (@stevefulme1)
@@ -23,24 +23,19 @@ options:
             - The name parameter.
         type: str
         required: true
+    project_id:
+        description:
+            - The project id parameter.
+        type: str
+        required: true
+    model_spec:
+        description:
+            - The model spec parameter.
+        type: str
+        required: true
     model_id:
         description:
             - The model id parameter.
-        type: str
-        required: true
-    metric:
-        description:
-            - The metric parameter.
-        type: str
-        required: true
-    threshold:
-        description:
-            - The threshold parameter.
-        type: str
-        required: true
-    alert_id:
-        description:
-            - The alert id parameter.
         type: str
         required: false
     state:
@@ -72,23 +67,22 @@ requirements:
 """
 
 EXAMPLES = r"""
-- name: Create alert
-  stevefulme1.fiddler_ai.alert:
+- name: Create model
+  stevefulme1.fiddler_ai.model:
     name: "example-value"
-    model_id: "example-value"
-    metric: "example-value"
-    threshold: "example-value"
+    project_id: "example-value"
+    model_spec: "example-value"
     state: present
 
-- name: Delete alert
-  stevefulme1.fiddler_ai.alert:
-    alert_id: "example-value"
+- name: Delete model
+  stevefulme1.fiddler_ai.model:
+    model_id: "example-value"
     state: absent
 """
 
 RETURN = r"""
-alert:
-    description: Details of the alert.
+model:
+    description: Details of the model.
     returned: On success.
     type: dict
 """
@@ -104,11 +98,11 @@ from ansible.module_utils.basic import AnsibleModule
 
 def get_resource(module, api_url, headers):
     """Retrieve existing resource."""
-    resource_id = module.params.get("alert_id")
+    resource_id = module.params.get("model_id")
     if not resource_id:
         return None
     try:
-        url = f"{api_url}/v3/alerts/{resource_id}"
+        url = f"{api_url}/api/v1/model/{resource_id}"
         response = requests.get(
             url, headers=headers,
             verify=module.params["validate_certs"],
@@ -127,14 +121,12 @@ def create_resource(module, api_url, headers):
     payload = {}
     if module.params.get("name"):
         payload["name"] = module.params["name"]
-    if module.params.get("model_id"):
-        payload["model_id"] = module.params["model_id"]
-    if module.params.get("metric"):
-        payload["metric"] = module.params["metric"]
-    if module.params.get("threshold"):
-        payload["threshold"] = module.params["threshold"]
+    if module.params.get("project_id"):
+        payload["project_id"] = module.params["project_id"]
+    if module.params.get("model_spec"):
+        payload["model_spec"] = module.params["model_spec"]
     response = requests.post(
-        f"{api_url}/v3/alerts",
+        f"{api_url}/api/v1/model",
         headers=headers, json=payload,
         verify=module.params["validate_certs"],
         timeout=30,
@@ -149,14 +141,12 @@ def update_resource(module, api_url, headers, existing):
     payload = {}
     if module.params.get("name"):
         payload["name"] = module.params["name"]
-    if module.params.get("model_id"):
-        payload["model_id"] = module.params["model_id"]
-    if module.params.get("metric"):
-        payload["metric"] = module.params["metric"]
-    if module.params.get("threshold"):
-        payload["threshold"] = module.params["threshold"]
+    if module.params.get("project_id"):
+        payload["project_id"] = module.params["project_id"]
+    if module.params.get("model_spec"):
+        payload["model_spec"] = module.params["model_spec"]
     response = requests.put(
-        f"{api_url}/v3/alerts/{resource_id}",
+        f"{api_url}/api/v1/model/{resource_id}",
         headers=headers, json=payload,
         verify=module.params["validate_certs"],
         timeout=30,
@@ -169,7 +159,7 @@ def delete_resource(module, api_url, headers, existing):
     """Delete an existing resource."""
     resource_id = existing.get("id", "")
     response = requests.delete(
-        f"{api_url}/v3/alerts/{resource_id}",
+        f"{api_url}/api/v1/model/{resource_id}",
         headers=headers,
         verify=module.params["validate_certs"],
         timeout=30,
@@ -179,7 +169,7 @@ def delete_resource(module, api_url, headers, existing):
 
 def needs_update(params, existing):
     """Check if resource needs updating."""
-    updatable = ['name', 'model_id', 'metric', 'threshold']
+    updatable = ['name', 'project_id', 'model_spec']
     for attr in updatable:
         desired = params.get(attr)
         if desired is None:
@@ -193,10 +183,9 @@ def needs_update(params, existing):
 def main():
     module_args = dict(
         name=dict(type="str", required=True),
-        model_id=dict(type="str", required=True),
-        metric=dict(type="str", required=True),
-        threshold=dict(type="str", required=True),
-        alert_id=dict(type="str"),
+        project_id=dict(type="str", required=True),
+        model_spec=dict(type="str", required=True),
+        model_id=dict(type="str"),
         state=dict(type="str", choices=["present", "absent"], default="present"),
         api_url=dict(type="str", required=True),
         api_key=dict(type="str", required=True, no_log=True),
@@ -238,7 +227,7 @@ def main():
             resource = create_resource(module, api_url, headers)
         except requests.RequestException as e:
             module.fail_json(msg=f"Failed to create resource: {e}")
-        module.exit_json(changed=True, alert=resource)
+        module.exit_json(changed=True, model=resource)
 
     if needs_update(module.params, existing):
         if module.check_mode:
@@ -247,9 +236,9 @@ def main():
             resource = update_resource(module, api_url, headers, existing)
         except requests.RequestException as e:
             module.fail_json(msg=f"Failed to update resource: {e}")
-        module.exit_json(changed=True, alert=resource)
+        module.exit_json(changed=True, model=resource)
 
-    module.exit_json(changed=False, alert=existing)
+    module.exit_json(changed=False, model=existing)
 
 
 if __name__ == "__main__":
