@@ -5,10 +5,7 @@ version: 0.0.1
 readme: README.md
 authors:
   - Steve Fulmer <sfulmer@redhat.com>
-description: "EXPERIMENTAL - proof of concept, not production ready. >-"
-  Ansible Collection for Fiddler AI model performance management platform.
-  Provides modules for managing projects, models, datasets, alerts,
-  custom metrics, explainability, and baselines via the Fiddler REST API.
+description: "EXPERIMENTAL - proof of concept, not production ready. Ansible Collection for Fiddler AI model performance management platform. Provides modules for managing projects, models, datasets, alerts, custom metrics, explainability, and baselines via the Fiddler REST API."
 license:
   - GPL-3.0-or-later
 tags:
